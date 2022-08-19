@@ -16,25 +16,28 @@ class TransactionList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 800,
       child: transactions.isEmpty
-          ? Column(
-              children: [
-                Container(
-                  margin: const EdgeInsets.symmetric(vertical: 20),
-                  child: Text(
-                    'Nenhuma transação cadastrada',
-                    style: Theme.of(context).textTheme.headline6,
-                  ),
-                ),
-                SizedBox(
-                  height: 200,
-                  child: Image.asset(
-                    'assets/images/waiting.png',
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ],
+          ? LayoutBuilder(
+              builder: (context, constraints) {
+                return Column(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.symmetric(vertical: 20),
+                      child: Text(
+                        'Nenhuma transação cadastrada',
+                        style: Theme.of(context).textTheme.headline6,
+                      ),
+                    ),
+                    SizedBox(
+                      height: constraints.maxHeight * 0.6,
+                      child: Image.asset(
+                        'assets/images/waiting.png',
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ],
+                );
+              },
             )
           : ListView.builder(
               itemCount: transactions.length,
@@ -61,15 +64,29 @@ class TransactionList extends StatelessWidget {
                       style: Theme.of(context).textTheme.headline6,
                     ),
                     subtitle: Text(
-                      DateFormat('dMMMy').format(transaction.date),
+                      DateFormat('d MMM y').format(transaction.date),
                     ),
-                    trailing: IconButton(
-                      icon: Icon(
-                        Icons.delete,
-                        color: Theme.of(context).errorColor,
-                      ),
-                      onPressed: () => onDelete(transaction.id),
-                    ),
+                    trailing: MediaQuery.of(context).size.width < 400
+                        ? IconButton(
+                            icon: Icon(
+                              Icons.delete,
+                              color: Theme.of(context).errorColor,
+                            ),
+                            onPressed: () => onDelete(transaction.id),
+                          )
+                        : TextButton.icon(
+                            onPressed: () => onDelete(transaction.id),
+                            icon: Icon(
+                              Icons.delete,
+                              color: Theme.of(context).errorColor,
+                            ),
+                            label: Text(
+                              'Excluir',
+                              style: TextStyle(
+                                color: Theme.of(context).errorColor,
+                              ),
+                            ),
+                          ),
                   ),
                 );
               },

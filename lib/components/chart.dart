@@ -19,18 +19,18 @@ class Chart extends StatelessWidget {
 
       double totalSom = 0.00;
 
-      for (int i = 0; i < recentTransactions.length; i++) {
-        bool sameDay = recentTransactions[i].date.day == weekDay.day;
-        bool sameMonth = recentTransactions[i].date.month == weekDay.month;
-        bool sameYear = recentTransactions[i].date.year == weekDay.year;
+      for (var transaction in recentTransactions) {
+        bool sameDay = transaction.date.day == weekDay.day;
+        bool sameMonth = transaction.date.month == weekDay.month;
+        bool sameYear = transaction.date.year == weekDay.year;
 
         if (sameDay && sameMonth && sameYear) {
-          totalSom += recentTransactions[i].value;
+          totalSom += transaction.value;
         }
       }
 
       return {
-        'day': DateFormat.E().format(weekDay)[0],
+        'day': DateFormat.E().format(weekDay)[0].toUpperCase(),
         'value': totalSom,
       };
     }).reversed.toList();
