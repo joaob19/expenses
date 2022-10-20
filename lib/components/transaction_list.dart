@@ -44,6 +44,7 @@ class TransactionList extends StatelessWidget {
               itemBuilder: (context, index) {
                 final transaction = transactions[index];
                 return TransactionItem(
+                  key: GlobalObjectKey(transaction),
                   transaction: transaction,
                   onDelete: onDelete,
                 );
